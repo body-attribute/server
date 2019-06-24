@@ -1,7 +1,6 @@
 from django.contrib import admin
-from .models import predict_index, Post
+from .models import Image
 
 # Register your models here.
 
-admin.site.register(predict_index)
-admin.site.register(Post)
+admin.site.register(Image)
