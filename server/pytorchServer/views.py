@@ -18,6 +18,7 @@ import numpy as np
 # Create your views here.
 
 class Predict():
+    '''
     def __init__(self):
         self.attributes = [
             'backpack', 'bag', 'handbag', 'clothes', 'down', 'up',
@@ -36,10 +37,38 @@ class Predict():
                           ('output', nn.Sigmoid())
                           ]))
         self.resnet.fc = classifier
-        self.resnet.load_state_dict(torch.load('C:/Users/ly/.torch/models/Market-unPreTrainedResNet18.pth'))
+        self.resnet.load_state_dict(torch.load('C:/Users/ly/.torch/models/Market-unPreTrainedResNet13-ep5.pth'))
+        self.resnet.eval()
         self.transforms = transforms.Compose([transforms.Resize((224, 224)), 
                                               transforms.ToTensor()])
-
+    '''
+    def __init__(self):
+        self.attributes = [
+            'backpack', 'bag', 'handbag', 'boots', 'gender', 'hat', 'shoes',
+            'top', 'downblack', 'downwhite', 'downred', 'downgray', 'downblue',
+            'downgreen', 'downbrown', 'upblack', 'upwhite',
+            'upred', 'uppurple', 'upgray', 'upblue', 'upgreen', 'upbrown'
+        ]
+        self.resnet = models.resnet18(pretrained=False)
+        classifier = nn.Sequential(OrderedDict([
+                          ('fc1', nn.Linear(512, 256)),
+                          ('dropout1', nn.Dropout(0.2)),
+                          ('relu1', nn.ReLU()),
+                          ('fc2', nn.Linear(256, 128)),
+                          ('dropout2', nn.Dropout(0.2)),
+                          ('relu2', nn.ReLU()),
+                          ('fc3', nn.Linear(128, 23)),
+                          ('output', nn.Sigmoid())
+                          ]))
+        self.resnet.fc = classifier
+        self.resnet.load_state_dict(torch.load('C:/Users/ly/.torch/models/new629.pth'))
+        self.resnet.eval()
+        self.transforms = transforms.Compose([transforms.Resize((224, 224)), 
+                                              transforms.ToTensor(),
+                                            #   transforms.Normalize([0.485, 0.456, 0.406],[0.229, 0.224, 0.225])
+                                              ])
+        self.resnet.eval()    
+    # '''
     def pre(self, img):
         img = self.transforms(img)
         print(img.shape)
@@ -48,6 +77,8 @@ class Predict():
         print(img.shape)
         with torch.no_grad():
             res = self.resnet(img)
+            # for i in range(res.shape[1]):
+            #     res[0, i] = 1.0 if res[0, i] > 0.5 else 0.0
             res = res.numpy()
         attrs = []
         print(res[0])
