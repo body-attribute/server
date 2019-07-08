@@ -6,5 +6,10 @@
 </head>
 <body>
     <img src="/media/{{img.Url}}">
+    <ul>
+        {% for attr in attrs %}
+        <li>{{ attr }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

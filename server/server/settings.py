@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    'lynb.cn1.utools.club'
+    'lynb.cn1.utools.club',
+    'shixun.cn1.utools.club'
 ]
 
 
